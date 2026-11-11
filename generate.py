@@ -47,7 +47,7 @@ def main():
         make_card(t,work/f"card{i}.png",i)
         p=work/f"voice{i}.mp3"; gTTS(t,lang="en").save(str(p)); aud.append(p)
     concat=work/"audio.txt"
-    concat.write_text("".join("file '"+str(p.resolve())+"'\\n" for p in aud))
+    concat.write_text("".join("file '" + str(p.resolve()) + "'\n" for p in aud))
     narration=work/"narration.mp3"
     subprocess.run(["ffmpeg","-y","-f","concat","-safe","0","-i",str(concat),"-c","copy",str(narration)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     durations=[]
