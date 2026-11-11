@@ -1,0 +1,33 @@
+name: Generate UNKNOWN FILES video
+on:
+  workflow_dispatch:
+  schedule:
+    # Nigeria is UTC+1: 08:00, 13:00 and 19:00 local time
+    - cron: "0 7 * * *"
+    - cron: "0 12 * * *"
+    - cron: "0 18 * * *"
+permissions:
+  contents: read
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Generate one video
+        run: python generate.py
+      - name: Save video artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unknown-files-video-${{ github.run_id }}
+          path: output/
+          retention-days: 7
