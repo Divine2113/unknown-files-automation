@@ -1,1 +1,2 @@
-Pillow==11.1.0\ngTTS==2.5.4\n
+Pillow==11.1.0
+gTTS==2.5.4
